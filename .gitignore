@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+tmp
+*.log
+.next
+stitch_file_follower_reader
+/tmp
