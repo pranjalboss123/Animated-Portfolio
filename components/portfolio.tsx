@@ -624,15 +624,13 @@ export default function Portfolio() {
 
               return (
                 <button
-                  className={`skill-card ${
-                    isVisible
+                  className={`skill-card ${isVisible
                       ? "in-view"
                       : ""
-                  } ${
-                    isExpanded
+                    } ${isExpanded
                       ? "is-expanded"
                       : ""
-                  }`}
+                    }`}
                   key={group.title}
                   onClick={() =>
                     setSelectedSkill(
@@ -663,23 +661,21 @@ export default function Portfolio() {
                     )}
                   </ul>
 
-                  <div className="skill-detail gap-2">
+                  <div className="skill-detail flex flex-col gap-3">
                     <p>
                       {group.summary}
                     </p>
 
-                    <strong>
+                    <strong className="mt-1">
                       USED IN
                     </strong>
 
-                    <div>
-                      {group.projects.map(
-                        (project) => (
-                          <span key={project}>
-                            {project}
-                          </span>
-                        )
-                      )}
+                    <div className="flex flex-wrap gap-2">
+                      {group.projects.map((project) => (
+                        <span key={project}>
+                          {project}
+                        </span>
+                      ))}
                     </div>
                   </div>
                 </button>
