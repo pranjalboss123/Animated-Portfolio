@@ -459,6 +459,7 @@ export default function Portfolio() {
           {[
             "home",
             "about",
+            "education",
             "work",
             "experience",
             "contact",
@@ -603,12 +604,143 @@ export default function Portfolio() {
         </section>
 
         <section
+          id="education"
+          className="education scroll-reveal"
+        >
+          <div className="section-heading">
+            <p className="eyebrow">
+              02 // ACADEMIC RECORD
+            </p>
+
+            <h2>Educational journey</h2>
+          </div>
+
+          <div className="section-grid">
+            <div className="section-intro">
+              <p className="eyebrow">
+                ABES INSTITUTE OF TECHNOLOGY
+              </p>
+
+              <h2>
+                Building the foundation behind the systems.
+              </h2>
+            </div>
+
+            <div className="about-body">
+              <p className="lead">
+                B.Tech in Computer Science and Engineering
+              </p>
+
+              <p>
+                July 2022 - Present{" "}
+                <span aria-hidden="true">•</span>{" "}
+                Ghaziabad
+              </p>
+
+              <div className="achievement-row">
+                <span>
+                  FINAL CGPA <strong>8.30</strong>
+                </span>
+
+                <span>8 SEMESTERS</span>
+
+                <span>
+                  PEAK SGPA <strong>9.25</strong>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="principles education-semesters"
+            aria-label="Semester performance"
+          >
+            {[
+              ["1st Semester", "8.23"],
+              ["2nd Semester", "8.86"],
+              ["3rd Semester", "7.96"],
+              ["4th Semester", "8.17"],
+              ["5th Semester", "8.17"],
+              ["6th Semester", "7.76"],
+              ["7th Semester", "8.32"],
+              ["8th Semester", "9.25"],
+            ].map(([semester, sgpa], index) => (
+              <article
+                key={semester}
+                className="scroll-reveal"
+                style={{
+                  transitionDelay: `${Math.min(index, 7) * 55}ms`,
+                }}
+              >
+                <span>
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                <h3>{semester}</h3>
+
+                <p>
+                  SGPA <strong>{sgpa}</strong>
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div className="section-grid education-school">
+            <div className="section-intro">
+              <p className="eyebrow">
+                SCHOOLING
+              </p>
+
+              <h2>Angels Public School</h2>
+            </div>
+
+            <div className="about-body">
+              <div className="principles">
+                <article
+                  className="scroll-reveal"
+                  style={{ transitionDelay: "80ms" }}
+                >
+                  <p className="eyebrow">
+                    2022 <span>{"//"}</span> DELHI
+                  </p>
+
+                  <h3>
+                    Intermediate (12th Class - PCM)
+                  </h3>
+
+                  <p className="lead">
+                    Percentage: 86.4%
+                  </p>
+                </article>
+
+                <article
+                  className="scroll-reveal"
+                  style={{ transitionDelay: "160ms" }}
+                >
+                  <p className="eyebrow">
+                    2020 <span>{"//"}</span> DELHI
+                  </p>
+
+                  <h3>
+                    Senior Secondary (10th Class - PCM)
+                  </h3>
+
+                  <p className="lead">
+                    Percentage: 80%
+                  </p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
           id="skills"
           className="skills scroll-reveal"
         >
           <div className="section-heading">
             <p className="eyebrow">
-              02 // CAPABILITY MATRIX
+              03 // CAPABILITY MATRIX
             </p>
 
             <h2>Technical stack</h2>
@@ -624,13 +756,15 @@ export default function Portfolio() {
 
               return (
                 <button
-                  className={`skill-card ${isVisible
-                    ? "in-view"
-                    : ""
-                    } ${isExpanded
+                  className={`skill-card ${
+                    isVisible
+                      ? "in-view"
+                      : ""
+                  } ${
+                    isExpanded
                       ? "is-expanded"
                       : ""
-                    }`}
+                  }`}
                   key={group.title}
                   onClick={() =>
                     setSelectedSkill(
@@ -665,18 +799,22 @@ export default function Portfolio() {
                     <p>
                       {group.summary}
                     </p>
+
                     <div className="flex flex-wrap gap-2">
                       <div>
                         <strong className="mt-1">
                           USED IN
                         </strong>
                       </div>
+
                       <div>
-                      {group.projects.map((project) => (
-                        <span key={project}>
-                          {project}
-                        </span>
-                      ))}
+                        {group.projects.map(
+                          (project) => (
+                            <span key={project}>
+                              {project}
+                            </span>
+                          )
+                        )}
                       </div>
                     </div>
                   </div>
@@ -692,7 +830,7 @@ export default function Portfolio() {
         >
           <div className="section-heading">
             <p className="eyebrow">
-              03 // DEPLOYMENTS
+              04 // DEPLOYMENTS
             </p>
 
             <h2>Featured systems</h2>
@@ -748,7 +886,7 @@ export default function Portfolio() {
         >
           <div className="section-heading">
             <p className="eyebrow">
-              04 // TRAJECTORY
+              05 // TRAJECTORY
             </p>
 
             <h2>Career evolution</h2>
@@ -803,7 +941,7 @@ export default function Portfolio() {
           className="contact scroll-reveal"
         >
           <p className="eyebrow">
-            05 // ESTABLISH CONNECTION
+            06 // ESTABLISH CONNECTION
           </p>
 
           <h2>
