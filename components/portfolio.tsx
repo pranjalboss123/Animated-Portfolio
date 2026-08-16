@@ -625,8 +625,8 @@ export default function Portfolio() {
               return (
                 <button
                   className={`skill-card ${isVisible
-                      ? "in-view"
-                      : ""
+                    ? "in-view"
+                    : ""
                     } ${isExpanded
                       ? "is-expanded"
                       : ""
@@ -661,21 +661,23 @@ export default function Portfolio() {
                     )}
                   </ul>
 
-                  <div className="skill-detail flex flex-col gap-3">
+                  <div className="skill-detail flex flex-col gap-4">
                     <p>
                       {group.summary}
                     </p>
-
-                    <strong className="mt-1">
-                      USED IN
-                    </strong>
-
                     <div className="flex flex-wrap gap-2">
+                      <div>
+                        <strong className="mt-1">
+                          USED IN
+                        </strong>
+                      </div>
+                      <div>
                       {group.projects.map((project) => (
                         <span key={project}>
                           {project}
                         </span>
                       ))}
+                      </div>
                     </div>
                   </div>
                 </button>
