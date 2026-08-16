@@ -491,7 +491,7 @@ export default function Portfolio() {
           <div className="hero-copy">
             <p className="eyebrow">
               {profile.role}
-              <span>//</span>
+              <span>{"//"}</span>
               AI INTEGRATION
             </p>
 
@@ -663,7 +663,7 @@ export default function Portfolio() {
                     )}
                   </ul>
 
-                  <div className="skill-detail">
+                  <div className="skill-detail gap-2">
                     <p>
                       {group.summary}
                     </p>
@@ -897,7 +897,7 @@ export default function Portfolio() {
 
             <p className="eyebrow">
               {selected.period}
-              <span>//</span>
+              <span>{"//"}</span>
               {selected.status}
             </p>
 
