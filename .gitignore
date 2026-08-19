@@ -6,3 +6,4 @@ tmp
 .next
 stitch_file_follower_reader
 /tmp
+.playwright-mcp

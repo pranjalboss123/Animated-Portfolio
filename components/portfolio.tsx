@@ -89,6 +89,10 @@ export default function Portfolio() {
   const [selectedSkill, setSelectedSkill] = useState<number | null>(null);
   const [active, setActive] = useState("home");
   const [visibleSkills, setVisibleSkills] = useState<number[]>([]);
+  const [showSemesters, setShowSemesters] = useState(false);
+  const [navVisible, setNavVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     const sections = [
@@ -111,6 +115,40 @@ export default function Portfolio() {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const currentScrollY = window.scrollY;
+
+        // Only hide/show after scrolling past the hero (100px threshold)
+        if (currentScrollY > 100) {
+          if (currentScrollY > lastScrollY) {
+            // Scrolling down - hide navbar
+            setNavVisible(false);
+          } else {
+            // Scrolling up - show navbar
+            setNavVisible(true);
+          }
+        } else {
+          // At top of page - always show
+          setNavVisible(true);
+        }
+
+        setLastScrollY(currentScrollY);
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
@@ -450,12 +488,13 @@ export default function Portfolio() {
         aria-hidden="true"
       />
 
-      <header className="nav shell">
-        <a className="brand" href="#home">
-          RG<span>.</span>
-        </a>
+      <header className={`nav ${navVisible ? "nav-visible" : "nav-hidden"}`}>
+        <div className="nav-inner shell">
+          <a className="brand" href="#home">
+            RG<span>.</span>
+          </a>
 
-        <nav aria-label="Primary navigation">
+          <nav aria-label="Primary navigation" className="nav-desktop">
           {[
             "home",
             "about",
@@ -472,6 +511,7 @@ export default function Portfolio() {
                   ? "is-active"
                   : ""
               }
+              onClick={() => setMobileNavOpen(false)}
             >
               {item}
             </a>
@@ -485,7 +525,48 @@ export default function Portfolio() {
           <i />
           AVAILABLE
         </a>
+
+        <button
+          className="mobile-menu-toggle"
+          aria-label={mobileNavOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileNavOpen}
+          onClick={() => setMobileNavOpen(!mobileNavOpen)}
+          aria-controls="mobile-nav"
+        >
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+          <span className="hamburger-line" />
+        </button>
+        </div>
       </header>
+
+      <nav
+        id="mobile-nav"
+        className={`mobile-nav ${mobileNavOpen ? "is-open" : ""}`}
+        aria-label="Mobile navigation"
+      >
+        {[
+          "home",
+          "about",
+          "education",
+          "work",
+          "experience",
+          "contact",
+        ].map((item) => (
+          <a
+            key={item}
+            href={`#${item}`}
+            className={active === item ? "is-active" : ""}
+            onClick={() => setMobileNavOpen(false)}
+          >
+            {item}
+          </a>
+        ))}
+        <a className="system-status" href="#contact">
+          <i />
+          AVAILABLE
+        </a>
+      </nav>
 
       <main className="shell">
         <section id="home" className="hero">
@@ -651,38 +732,62 @@ export default function Portfolio() {
             </div>
           </div>
 
-          <div
-            className="principles education-semesters"
-            aria-label="Semester performance"
-          >
-            {[
-              ["1st Semester", "8.23"],
-              ["2nd Semester", "8.86"],
-              ["3rd Semester", "7.96"],
-              ["4th Semester", "8.17"],
-              ["5th Semester", "8.17"],
-              ["6th Semester", "7.76"],
-              ["7th Semester", "8.32"],
-              ["8th Semester", "9.25"],
-            ].map(([semester, sgpa], index) => (
-              <article
-                key={semester}
-                className="scroll-reveal"
-                style={{
-                  transitionDelay: `${Math.min(index, 7) * 55}ms`,
-                }}
-              >
-                <span>
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+          <div className="education-semesters-wrapper">
+            <button
+              className={`semester-toggle ${showSemesters ? "is-open" : ""}`}
+              onClick={() => setShowSemesters(!showSemesters)}
+              aria-expanded={showSemesters}
+              aria-controls="semester-details"
+            >
+              <span>
+                {showSemesters ? "HIDE SEMESTER DETAILS" : "VIEW ALL SEMESTERS"}
+              </span>
+              <b aria-hidden="true">
+                {showSemesters ? "▲" : "▼"}
+              </b>
+            </button>
 
-                <h3>{semester}</h3>
+            <div
+              id="semester-details"
+              className="semester-details"
+              role="region"
+              aria-label="Semester performance"
+              style={{
+                maxHeight: showSemesters ? "1000px" : "0",
+                opacity: showSemesters ? 1 : 0,
+              }}
+            >
+              <div className="principles education-semesters">
+                {[
+                  ["1st Semester", "8.23"],
+                  ["2nd Semester", "8.86"],
+                  ["3rd Semester", "7.96"],
+                  ["4th Semester", "8.17"],
+                  ["5th Semester", "8.17"],
+                  ["6th Semester", "7.76"],
+                  ["7th Semester", "8.32"],
+                  ["8th Semester", "9.25"],
+                ].map(([semester, sgpa], index) => (
+                  <article
+                    key={semester}
+                    className="scroll-reveal"
+                    style={{
+                      transitionDelay: `${Math.min(index, 7) * 55}ms`,
+                    }}
+                  >
+                    <span>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
 
-                <p>
-                  SGPA <strong>{sgpa}</strong>
-                </p>
-              </article>
-            ))}
+                    <h3>{semester}</h3>
+
+                    <p>
+                      SGPA <strong>{sgpa}</strong>
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
 
           <div className="section-grid education-school">
