@@ -137,3 +137,46 @@ clip-path:none}
 .skill-card.in-view li,.project-card.in-view .visual-window,.project-card.in-view .project-content>*{animation:none}
 }
 
+@media (hover: none), (pointer: coarse) {
+  .project-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .project-card:nth-child(even):hover {
+    transform: none;
+  }
+
+  .project-card:hover .visual-window {
+    transform: rotate(-3deg);
+  }
+
+  .timeline-item:hover {
+    transform: none;
+  }
+
+  .button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .skill-card:hover li {
+    transform: none;
+  }
+
+  .skill-card:hover {
+    translate: none;
+  }
+}
+@media (max-width: 850px) {
+  .project-card:not(.in-view),
+  .project-card:not(.in-view):nth-child(odd),
+  .project-card:not(.in-view):nth-child(even) {
+    transform: translateY(18px);
+  }
+
+  .project-card:hover,
+  .project-card:nth-child(even):hover {
+    transform: translateY(-4px);
+  }
+}

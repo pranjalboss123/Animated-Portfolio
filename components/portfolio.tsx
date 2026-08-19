@@ -16,7 +16,9 @@ function Orb() {
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (media.matches) return;
+const coarsePointer = window.matchMedia("(pointer: coarse)");
+
+if (media.matches || coarsePointer.matches) return;
 
     const update = (event: PointerEvent) => {
       if (!orb.current) return;
@@ -406,11 +408,10 @@ useEffect(() => {
   }, []);
 
   useEffect(() => {
-    const media = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    );
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+const coarsePointer = window.matchMedia("(pointer: coarse)");
 
-    if (media.matches) return;
+if (media.matches || coarsePointer.matches) return;
     if (document.querySelector(".cursor-ring")) return;
 
     const ring = document.createElement("div");
@@ -791,7 +792,7 @@ useEffect(() => {
               role="region"
               aria-label="Semester performance"
               style={{
-                maxHeight: showSemesters ? "1000px" : "0",
+                maxHeight: showSemesters ? "3000px" : "0",
                 opacity: showSemesters ? 1 : 0,
               }}
             >

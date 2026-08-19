@@ -29,13 +29,19 @@ export default function FluidCanvas() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      const count = Math.min(560, Math.round((width * height) / 2600));
-      particles = Array.from({ length: count }, (_, index) => ({
-        x: Math.random() * width, y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.41, vy: (Math.random() - 0.5) * 0.41,
-        size: Math.random() * 1.7 + 0.35, hue: index % 6 === 0 ? 270 : 188,
-        drift: Math.random() * Math.PI * 2,
-      }));
+      const area = width * height;
+
+      const count =
+        width < 520
+          ? Math.min(90, Math.round(area / 7000))
+          : width < 850
+            ? Math.min(180, Math.round(area / 5000))
+            : Math.min(560, Math.round(area / 2600)); particles = Array.from({ length: count }, (_, index) => ({
+              x: Math.random() * width, y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.41, vy: (Math.random() - 0.5) * 0.41,
+              size: Math.random() * 1.7 + 0.35, hue: index % 6 === 0 ? 270 : 188,
+              drift: Math.random() * Math.PI * 2,
+            }));
     };
     const move = (event: PointerEvent) => { pointer.x = event.clientX; pointer.y = event.clientY; };
     const draw = (time: number) => {
