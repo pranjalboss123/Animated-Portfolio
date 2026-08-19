@@ -91,7 +91,7 @@ export default function Portfolio() {
   const [visibleSkills, setVisibleSkills] = useState<number[]>([]);
   const [showSemesters, setShowSemesters] = useState(false);
   const [navVisible, setNavVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const lastScrollY = useRef(0);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
@@ -116,40 +116,78 @@ export default function Portfolio() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    let ticking = false;
+  // useEffect(() => {
+  //   let ticking = false;
 
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
+  //   const handleScroll = () => {
+  //     if (ticking) return;
+  //     ticking = true;
 
-      requestAnimationFrame(() => {
-        const currentScrollY = window.scrollY;
+  //     requestAnimationFrame(() => {
+  //       const currentScrollY = window.scrollY;
 
-        // Only hide/show after scrolling past the hero (100px threshold)
-        if (currentScrollY > 100) {
-          if (currentScrollY > lastScrollY) {
-            // Scrolling down - hide navbar
-            setNavVisible(false);
-          } else {
-            // Scrolling up - show navbar
-            setNavVisible(true);
-          }
-        } else {
-          // At top of page - always show
-          setNavVisible(true);
-        }
+  //       // Only hide/show after scrolling past the hero (100px threshold)
+  //       if (currentScrollY > 100) {
+  //         if (currentScrollY > lastScrollY) {
+  //           // Scrolling down - hide navbar
+  //           setNavVisible(false);
+  //         } else {
+  //           // Scrolling up - show navbar
+  //           setNavVisible(true);
+  //         }
+  //       } else {
+  //         // At top of page - always show
+  //         setNavVisible(true);
+  //       }
 
-        setLastScrollY(currentScrollY);
-        ticking = false;
-      });
-    };
+  //       setLastScrollY(currentScrollY);
+  //       ticking = false;
+  //     });
+  //   };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [lastScrollY]);
+useEffect(() => {
+  let ticking = false;
 
+  const handleScroll = () => {
+    if (ticking) return;
+
+    ticking = true;
+
+    requestAnimationFrame(() => {
+      const currentScrollY = window.scrollY;
+      const previousScrollY = lastScrollY.current;
+
+      // Always show navbar at the very top
+      if (currentScrollY <= 100) {
+        setNavVisible(true);
+      }
+      // Scrolling down -> hide
+      else if (currentScrollY > previousScrollY + 5) {
+        setNavVisible(false);
+        setMobileNavOpen(false);
+      }
+      // Scrolling up -> show
+      else if (currentScrollY < previousScrollY - 5) {
+        setNavVisible(true);
+      }
+
+      lastScrollY.current = currentScrollY;
+      ticking = false;
+    });
+  };
+
+  window.addEventListener("scroll", handleScroll, {
+    passive: true,
+  });
+
+  return () => {
+    window.removeEventListener("scroll", handleScroll);
+  };
+}, []);
   useEffect(() => {
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
